@@ -1,19 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-
+// MODULES
 import { ModelModule } from './model/model.module';
+import { MessageModule } from './messages/message.module';
+import { CoreModule } from './core/core.module';
+
+// COMPONENTS
+import { MessageComponent } from './messages/message.component';
+import { TableComponent } from './core/table.component';
+import { FormComponent } from './core/form.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [],
   imports: [
     BrowserModule,
-    ModelModule
+    ModelModule,
+    CoreModule,
+    MessageModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [TableComponent, FormComponent, MessageComponent]
 })
 export class AppModule { }

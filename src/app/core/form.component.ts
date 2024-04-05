@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NgForm, FormControl, Validators } from "@angular/forms";
+import { NgForm, FormControl, Validators, FormGroup } from "@angular/forms";
 import { Product } from "../model/product.model";
 import { Model } from "../model/repository.model"
 import { Message } from "../messages/message.model"
@@ -26,6 +26,11 @@ export class FormComponent {
     });
     categoryField: FormControl = new FormControl();
 
+    productForm: FormGroup = new FormGroup({
+        name: this.nameField,
+        category: this.categoryField
+    });
+
     constructor(private model: Model, 
         private state: SharedState,
         private messageService: MessageService) {
@@ -35,13 +40,30 @@ export class FormComponent {
 
     ngOnInit(){
 
-        this.nameField.statusChanges.subscribe(newStatus => {
+        this.productForm.statusChanges.subscribe(newStatus => {
             if (newStatus == "INVALID") {
-                this.categoryField.disable();
+                let invalidControls: string[] = [];
+                for (let controlName in this.productForm.controls) {
+                    if (this.productForm.controls[controlName].invalid) {
+                        invalidControls.push(controlName);
+                    }
+                };
+                this.messageService.reportMessage(
+                    new Message(`INVALID: ${invalidControls.join(", ")}`)
+                );
             } else {
-                this.categoryField.enable();
+                this.messageService.reportMessage(new Message(newStatus));
             }
-        })
+        });
+
+
+        // this.nameField.statusChanges.subscribe(newStatus => {
+        //     if (newStatus == "INVALID") {
+        //         this.categoryField.disable();
+        //     } else {
+        //         this.categoryField.enable();
+        //     }
+        // });
 
         // this.nameField.statusChanges.subscribe(newStatus => {
         //     if(newStatus == "INVALID" && this.nameField.errors != null){
@@ -72,15 +94,17 @@ export class FormComponent {
             this.messageService.reportMessage(
                 new Message(`Editing ${this.product.name}`));
 
-            this.nameField.setValue(this.product.name);
-            this.categoryField.setValue(this.product.category);
+            // this.nameField.setValue(this.product.name);
+            // this.categoryField.setValue(this.product.category);
                 
         } else {
             this.product = new Product();
             this.messageService.reportMessage(new Message("Creating New Product"));
-            this.nameField.setValue("");
-            this.categoryField.setValue("");
+            // this.nameField.setValue("");
+            // this.categoryField.setValue("");
         }
+
+        this.productForm.reset(this.product);
     }
 
     // submitForm(form: NgForm) {

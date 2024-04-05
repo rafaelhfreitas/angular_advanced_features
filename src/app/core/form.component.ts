@@ -26,11 +26,11 @@ export class FormComponent {
             ],
             updateOn: "change"
         }),
-        category: new FormControl("", {validators: [Validators.required]}),
-        price: new FormControl("",{validators: [Validators.required, Validators.pattern("^[0-9\.]+$")]}),
+        category: new FormControl("", { validators: [Validators.required] }),
+        price: new FormControl("", { validators: [Validators.required, Validators.pattern("^[0-9\.]+$")] }),
         details: new FormGroup({
-            supplier: new FormControl("", {validators: Validators.required}),
-            keywords: new FormControl("", {validators: Validators.required})
+            supplier: new FormControl("", { validators: Validators.required }),
+            keywords: new FormControl("", { validators: Validators.required })
         })
     });
 
@@ -39,6 +39,13 @@ export class FormComponent {
         private messageService: MessageService) {
         this.state.changes.subscribe((upd) => this.handleStateChange(upd))
         this.messageService.reportMessage(new Message("Creating New Product"));
+    }
+
+
+    ngOnInit() {
+        this.productForm.get("details")?.statusChanges.subscribe(newStatus => {
+            this.messageService.reportMessage(new Message(`Details ${newStatus}`));
+        })
     }
 
     handleStateChange(newState: StateUpdate) {
@@ -62,7 +69,7 @@ export class FormComponent {
         this.productForm.reset(this.product);
     }
 
-    submitForm(){
+    submitForm() {
         if (this.productForm.valid) {
             Object.assign(this.product, this.productForm.value);
             this.model.saveProduct(this.product);
@@ -71,7 +78,7 @@ export class FormComponent {
         }
     }
 
-    resetForm(){
+    resetForm() {
         this.editing = true;
         this.product = new Product();
         this.productForm.reset();

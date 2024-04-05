@@ -16,20 +16,6 @@ export class FormComponent {
 
     product: Product = new Product();
     editing: boolean = false;
-    // nameField: FormControl = new FormControl("", {
-    //     validators: [
-    //         Validators.required,
-    //         Validators.minLength(3),
-    //         Validators.pattern("^[A-Za-z ]+$")
-    //     ],
-    //     updateOn: "change"
-    // });
-    // categoryField: FormControl = new FormControl();
-
-    // productForm: FormGroup = new FormGroup({
-    //     name: this.nameField,
-    //     category: this.categoryField
-    // });
 
     productForm: FormGroup = new FormGroup({
         name: new FormControl("", {
@@ -40,7 +26,8 @@ export class FormComponent {
             ],
             updateOn: "change"
         }),
-        category: new FormControl()
+        category: new FormControl("", {validators: [Validators.required]}),
+        price: new FormControl("",{validators: [Validators.required, Validators.pattern("^[0-9\.]+$")]})
     });
 
     constructor(private model: Model,
@@ -50,25 +37,25 @@ export class FormComponent {
         this.messageService.reportMessage(new Message("Creating New Product"));
     }
 
-    ngOnInit() {
+    // ngOnInit() {
 
-        this.productForm.statusChanges.subscribe(newStatus => {
-            if (newStatus == "INVALID") {
-                let invalidControls: string[] = [];
-                for (let controlName in this.productForm.controls) {
-                    if (this.productForm.controls[controlName].invalid) {
-                        invalidControls.push(controlName);
-                    }
-                };
-                this.messageService.reportMessage(
-                    new Message(`INVALID: ${invalidControls.join(", ")}`)
-                );
-            } else {
-                this.messageService.reportMessage(new Message(newStatus));
-            }
-        });
+    //     this.productForm.statusChanges.subscribe(newStatus => {
+    //         if (newStatus == "INVALID") {
+    //             let invalidControls: string[] = [];
+    //             for (let controlName in this.productForm.controls) {
+    //                 if (this.productForm.controls[controlName].invalid) {
+    //                     invalidControls.push(controlName);
+    //                 }
+    //             };
+    //             this.messageService.reportMessage(
+    //                 new Message(`INVALID: ${invalidControls.join(", ")}`)
+    //             );
+    //         } else {
+    //             this.messageService.reportMessage(new Message(newStatus));
+    //         }
+    //     });
 
-    }
+    // }
 
     handleStateChange(newState: StateUpdate) {
 
@@ -91,6 +78,20 @@ export class FormComponent {
         this.productForm.reset(this.product);
     }
 
+    submitForm(){
+        if (this.productForm.valid) {
+            Object.assign(this.product, this.productForm.value);
+            this.model.saveProduct(this.product);
+            this.product = new Product();
+            this.productForm.reset();
+        }
+    }
+
+    resetForm(){
+        this.editing = true;
+        this.product = new Product();
+        this.productForm.reset();
+    }
 
 
 }

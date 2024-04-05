@@ -16,29 +16,41 @@ export class FormComponent {
 
     product: Product = new Product();
     editing: boolean = false;
-    nameField: FormControl = new FormControl("", {
-        validators: [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.pattern("^[A-Za-z ]+$")
-        ],
-        updateOn: "change"
-    });
-    categoryField: FormControl = new FormControl();
+    // nameField: FormControl = new FormControl("", {
+    //     validators: [
+    //         Validators.required,
+    //         Validators.minLength(3),
+    //         Validators.pattern("^[A-Za-z ]+$")
+    //     ],
+    //     updateOn: "change"
+    // });
+    // categoryField: FormControl = new FormControl();
+
+    // productForm: FormGroup = new FormGroup({
+    //     name: this.nameField,
+    //     category: this.categoryField
+    // });
 
     productForm: FormGroup = new FormGroup({
-        name: this.nameField,
-        category: this.categoryField
+        name: new FormControl("", {
+            validators: [
+                Validators.required,
+                Validators.minLength(3),
+                Validators.pattern("^[A-Za-z ]+$")
+            ],
+            updateOn: "change"
+        }),
+        category: new FormControl()
     });
 
-    constructor(private model: Model, 
+    constructor(private model: Model,
         private state: SharedState,
         private messageService: MessageService) {
         this.state.changes.subscribe((upd) => this.handleStateChange(upd))
         this.messageService.reportMessage(new Message("Creating New Product"));
     }
 
-    ngOnInit(){
+    ngOnInit() {
 
         this.productForm.statusChanges.subscribe(newStatus => {
             if (newStatus == "INVALID") {
@@ -56,30 +68,6 @@ export class FormComponent {
             }
         });
 
-
-        // this.nameField.statusChanges.subscribe(newStatus => {
-        //     if (newStatus == "INVALID") {
-        //         this.categoryField.disable();
-        //     } else {
-        //         this.categoryField.enable();
-        //     }
-        // });
-
-        // this.nameField.statusChanges.subscribe(newStatus => {
-        //     if(newStatus == "INVALID" && this.nameField.errors != null){
-        //         let errs = Object.keys(this.nameField.errors).join(", ");
-        //         this.messageService.reportMessage(new Message(`INVALID: ${errs}`));
-        //     } else {
-        //         this.messageService.reportMessage(new Message(newStatus));
-        //     }
-        // });
-
-        // this.nameField.valueChanges.subscribe(newValue => {
-        //     this.messageService.reportMessage(new Message(newValue || "(Empty)"));
-        //     if(typeof(newValue) == "string" && newValue.length %2 == 0) {
-        //         this.nameField.markAsPristine();
-        //     }
-        // });
     }
 
     handleStateChange(newState: StateUpdate) {
@@ -87,32 +75,22 @@ export class FormComponent {
         this.editing = newState.mode == MODES.EDIT;
 
         if (this.editing && newState.id) {
-            
+
             Object.assign(this.product, this.model.getProduct(newState.id)
                 ?? new Product());
 
             this.messageService.reportMessage(
                 new Message(`Editing ${this.product.name}`));
 
-            // this.nameField.setValue(this.product.name);
-            // this.categoryField.setValue(this.product.category);
-                
         } else {
             this.product = new Product();
             this.messageService.reportMessage(new Message("Creating New Product"));
-            // this.nameField.setValue("");
-            // this.categoryField.setValue("");
+
         }
 
         this.productForm.reset(this.product);
     }
 
-    // submitForm(form: NgForm) {
-    //     if (form.valid) {
-    //         this.model.saveProduct(this.product);
-    //         this.product = new Product();
-    //         form.resetForm();
-    //     }
-    // }
+
 
 }

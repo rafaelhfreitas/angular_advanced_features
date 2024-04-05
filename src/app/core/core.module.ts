@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ModelModule } from "../model/model.module";
 import { TableComponent } from "./table.component";
 import { FormComponent } from "./form.component";
@@ -11,7 +11,8 @@ import { SharedState } from "./sharedState.service";
     imports: [
         BrowserModule, 
         FormsModule, 
-        ModelModule
+        ModelModule,
+        ReactiveFormsModule
     ],
     declarations: [
         TableComponent, 

@@ -1,4 +1,9 @@
-<form #form="ngForm" (ngSubmit)="submitForm(form)" (reset)="form.resetForm()">
+<div class="form-group">
+    <label>Name</label>
+    <input class="form-control" name="name" [formControl]="nameField"/>
+</div>
+
+<!-- <form #form="ngForm" (ngSubmit)="submitForm(form)" (reset)="form.resetForm()">
     <div class="form-group">
         <label>Name</label>
         <input class="form-control" name="name" [(ngModel)]="product.name" required />
@@ -17,4 +22,4 @@
         </button>
         <button type="reset" class="btn btn-secondary m-1">Cancel</button>
     </div>
-</form>
+</form> -->

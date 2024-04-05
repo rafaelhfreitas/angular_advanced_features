@@ -8,7 +8,6 @@ import { FormControl, ValidationErrors } from "@angular/forms";
 export class ValidationHelper {
 
     transform(source: any, name: any): string[] {
-        debugger
         if (source instanceof FormControl) {
             return this.formatMessages((source as FormControl).errors, name)
         }

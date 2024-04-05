@@ -24,6 +24,7 @@ export class FormComponent {
         ],
         updateOn: "change"
     });
+    categoryField: FormControl = new FormControl();
 
     constructor(private model: Model, 
         private state: SharedState,
@@ -35,13 +36,21 @@ export class FormComponent {
     ngOnInit(){
 
         this.nameField.statusChanges.subscribe(newStatus => {
-            if(newStatus == "INVALID" && this.nameField.errors != null){
-                let errs = Object.keys(this.nameField.errors).join(", ");
-                this.messageService.reportMessage(new Message(`INVALID: ${errs}`));
+            if (newStatus == "INVALID") {
+                this.categoryField.disable();
             } else {
-                this.messageService.reportMessage(new Message(newStatus));
+                this.categoryField.enable();
             }
         })
+
+        // this.nameField.statusChanges.subscribe(newStatus => {
+        //     if(newStatus == "INVALID" && this.nameField.errors != null){
+        //         let errs = Object.keys(this.nameField.errors).join(", ");
+        //         this.messageService.reportMessage(new Message(`INVALID: ${errs}`));
+        //     } else {
+        //         this.messageService.reportMessage(new Message(newStatus));
+        //     }
+        // });
 
         // this.nameField.valueChanges.subscribe(newValue => {
         //     this.messageService.reportMessage(new Message(newValue || "(Empty)"));
@@ -64,11 +73,13 @@ export class FormComponent {
                 new Message(`Editing ${this.product.name}`));
 
             this.nameField.setValue(this.product.name);
+            this.categoryField.setValue(this.product.category);
                 
         } else {
             this.product = new Product();
             this.messageService.reportMessage(new Message("Creating New Product"));
             this.nameField.setValue("");
+            this.categoryField.setValue("");
         }
     }
 

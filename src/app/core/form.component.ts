@@ -16,7 +16,14 @@ export class FormComponent {
 
     product: Product = new Product();
     editing: boolean = false;
-    nameField: FormControl = new FormControl("Initial Value", {updateOn: "change"});
+    nameField: FormControl = new FormControl("", {
+        validators: [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.pattern("^[A-Za-z ]+$")
+        ],
+        updateOn: "change"
+    });
 
     constructor(private model: Model, 
         private state: SharedState,
@@ -26,12 +33,22 @@ export class FormComponent {
     }
 
     ngOnInit(){
-        this.nameField.valueChanges.subscribe(newValue => {
-            this.messageService.reportMessage(new Message(newValue || "(Empty)"));
-            if(typeof(newValue) == "string" && newValue.length %2 == 0) {
-                this.nameField.markAsPristine();
+
+        this.nameField.statusChanges.subscribe(newStatus => {
+            if(newStatus == "INVALID" && this.nameField.errors != null){
+                let errs = Object.keys(this.nameField.errors).join(", ");
+                this.messageService.reportMessage(new Message(`INVALID: ${errs}`));
+            } else {
+                this.messageService.reportMessage(new Message(newStatus));
             }
-        });
+        })
+
+        // this.nameField.valueChanges.subscribe(newValue => {
+        //     this.messageService.reportMessage(new Message(newValue || "(Empty)"));
+        //     if(typeof(newValue) == "string" && newValue.length %2 == 0) {
+        //         this.nameField.markAsPristine();
+        //     }
+        // });
     }
 
     handleStateChange(newState: StateUpdate) {

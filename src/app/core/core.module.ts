@@ -5,6 +5,7 @@ import { ModelModule } from "../model/model.module";
 import { TableComponent } from "./table.component";
 import { FormComponent } from "./form.component";
 import { SharedState } from "./sharedState.service";
+import { ValidationHelper } from "./validation_helper";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { SharedState } from "./sharedState.service";
     ],
     declarations: [
         TableComponent, 
-        FormComponent
+        FormComponent,
+        ValidationHelper
     ],
     exports: [
         ModelModule, 

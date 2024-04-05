@@ -1,21 +1,26 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ModelModule } from "../model/model.module";
 import { TableComponent } from "./table.component";
 import { FormComponent } from "./form.component";
 import { SharedState } from "./sharedState.service";
+import { ValidationHelper } from "./validation_helper";
+import { ValidationErrorsDirective } from "./validationsErros.directive";
 
 
 @NgModule({
     imports: [
         BrowserModule, 
         FormsModule, 
-        ModelModule
+        ModelModule,
+        ReactiveFormsModule
     ],
     declarations: [
         TableComponent, 
-        FormComponent
+        FormComponent,
+        ValidationHelper,
+        ValidationErrorsDirective
     ],
     exports: [
         ModelModule, 

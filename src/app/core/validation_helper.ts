@@ -28,6 +28,9 @@ export class ValidationHelper {
                 case "pattern":
                     messages.push(`The ${name} contains illegal characters`);
                     break;
+                case "limit":
+                    messages.push(`The ${name} must be less than ${errors['limit'].limit}`);
+                    break;
             }
         }
 

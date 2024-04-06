@@ -6,6 +6,7 @@ import { Message } from "../messages/message.model"
 import { MessageService } from "../messages/message.service";
 import { MODES, SharedState, StateUpdate } from "./sharedState.service";
 import { FilteredFormArray } from "./filteredFormArray";
+import { LimitValidator } from "../validation/limit";
 
 
 @Component({
@@ -40,7 +41,12 @@ export class FormComponent {
             updateOn: "change"
         }),
         category: new FormControl("", { validators: [Validators.required] }),
-        price: new FormControl("", { validators: [Validators.required, Validators.pattern("^[0-9\.]+$")] }),
+        price: new FormControl("", { 
+            validators: [
+                Validators.required, 
+                Validators.pattern("^[0-9\.]+$"),
+                LimitValidator.Limit(300)]
+        }),
         details: new FormGroup({
             supplier: new FormControl("", { validators: Validators.required }),
             keywords: this.keywordGroup

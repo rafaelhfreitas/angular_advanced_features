@@ -1,6 +1,6 @@
 import { Injectable, Inject, InjectionToken } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { catchError, Observable } from "rxjs";
 import { Product } from "./product.model";
 
 export const REST_URL = new InjectionToken("rest_url");
@@ -13,7 +13,9 @@ export class RestDataSource {
 
     getData(): Observable<Product[]> {
         // return this.http.get<Product[]>(this.url);
-        return this.sendRequest<Product[]>("GET", this.url)
+        // return this.sendRequest<Product[]>("GET", this.url)
+        // return this.http.jsonp<Product[]>(this.url, "callback");
+        return this.sendRequest<Product[]>("GET", this.url);
     }
 
     saveProduct(product: Product): Observable<Product> {
@@ -33,7 +35,23 @@ export class RestDataSource {
 
 
     private sendRequest<T>(verb: string, url: string, body?: Product) : Observable<T> {
-        return this.http.request<T>(verb, url, {body: body});
+
+        let myHeaders = new HttpHeaders();
+        myHeaders = myHeaders.set("Access-key", "<secret>");
+        myHeaders = myHeaders.set("Applications-Names", ["angularAdvanced", "proAngular"]);
+
+        return this.http.request<T>(verb, url, {
+            body: body,
+            headers: myHeaders
+            // headers: new HttpHeaders({
+            //     "Access-key" : "<secret>",
+            //     "Application-name": "angularAdvanced"
+            // })
+        }).pipe(catchError(( error: Response) => {
+            throw(`Network Error: ${error.statusText} (${error.status})`)
+        }))
+        ;
     }
+
 
 }

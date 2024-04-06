@@ -7,6 +7,7 @@ import { MessageService } from "../messages/message.service";
 import { MODES, SharedState, StateUpdate } from "./sharedState.service";
 import { FilteredFormArray } from "./filteredFormArray";
 import { LimitValidator } from "../validation/limit";
+import { UniqueValidator } from "../validation/unique";
 
 
 @Component({
@@ -21,7 +22,9 @@ export class FormComponent {
 
     keywordGroup = new FilteredFormArray([
         this.createKeywordFormControl()
-    ]);
+    ], { 
+        validators: UniqueValidator.unique()
+    });
 
     addKeywordControl() {
         this.keywordGroup.push(this.createKeywordFormControl());

@@ -37,6 +37,9 @@ export class ValidationHelper {
                 case "unique":
                     messages.push(`The ${name} must be unique`);
                     break;
+                case "prohibited":
+                    messages.push(`The ${name} may not contain "${errors["prohibited"].prohibited}"`);
+                    break;
             }
         }
 

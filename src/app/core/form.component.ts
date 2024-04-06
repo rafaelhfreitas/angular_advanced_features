@@ -8,6 +8,7 @@ import { MODES, SharedState, StateUpdate } from "./sharedState.service";
 import { FilteredFormArray } from "./filteredFormArray";
 import { LimitValidator } from "../validation/limit";
 import { UniqueValidator } from "../validation/unique";
+import { ProhibitedValidator } from "../validation/prohibited";
 
 
 @Component({
@@ -43,7 +44,10 @@ export class FormComponent {
             ],
             updateOn: "change"
         }),
-        category: new FormControl("", { validators: [Validators.required] }),
+        category: new FormControl("", { 
+            validators: [Validators.required],
+            asyncValidators: ProhibitedValidator.prohibited()
+        }),
         price: new FormControl("", { 
             validators: [
                 Validators.required, 

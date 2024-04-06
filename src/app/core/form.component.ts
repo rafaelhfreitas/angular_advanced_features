@@ -21,6 +21,14 @@ export class FormComponent {
         this.createKeywordFormControl()
     ]);
 
+    addKeywordControl() {
+        this.keywordGroup.push(this.createKeywordFormControl());
+    }
+
+    removeKeywordControl(index: number) {
+        this.keywordGroup.removeAt(index);
+    }
+
     productForm: FormGroup = new FormGroup({
         name: new FormControl("", {
             validators: [
@@ -102,7 +110,7 @@ export class FormComponent {
     }
 
     createKeywordFormControl(): FormControl {
-        return new FormControl();
+        return new FormControl("", {validators: Validators.pattern("^[A-Za-z ]+$")});
     }
 
 

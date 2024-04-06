@@ -8,6 +8,7 @@ import { SharedState } from "./sharedState.service";
 import { ValidationHelper } from "./validation_helper";
 import { ValidationErrorsDirective } from "./validationsErros.directive";
 import { HiLowValidatorDirective } from "../validation/hilow";
+import { RouterModule } from "@angular/router";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { HiLowValidatorDirective } from "../validation/hilow";
         BrowserModule, 
         FormsModule, 
         ModelModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterModule
     ],
     declarations: [
         TableComponent, 

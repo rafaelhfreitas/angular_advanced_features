@@ -5,6 +5,7 @@ import { Model } from "../model/repository.model"
 import { Message } from "../messages/message.model"
 import { MessageService } from "../messages/message.service";
 import { MODES, SharedState, StateUpdate } from "./sharedState.service";
+import { FilteredFormArray } from "./filteredFormArray";
 
 
 @Component({
@@ -17,7 +18,7 @@ export class FormComponent {
     product: Product = new Product();
     editing: boolean = false;
 
-    keywordGroup = new FormArray([
+    keywordGroup = new FilteredFormArray([
         this.createKeywordFormControl()
     ]);
 

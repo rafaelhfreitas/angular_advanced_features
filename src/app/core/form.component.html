@@ -39,7 +39,15 @@
             </ul>
         </div>
 
-        <div class="form-group">
+        <ng-container formGroupName="keywords">
+            <div class="form-group" *ngFor="let c of keywordGroup.controls; let i = index">
+                <label>Keyword {{ i + 1}}</label>
+                <input class="form-control" [formControlName]="i" [value]="c.value" />
+            </div>
+        </ng-container>
+    
+
+        <!-- <div class="form-group">
             <label>Keywords</label>
             <input class="form-control" formControlName="keywords" />
             <ul class="text-danger list-unstyled mt-1">
@@ -47,7 +55,8 @@
                     {{ err }}
                 </li>
             </ul>
-        </div>
+        </div> -->
+
     </ng-container>
 
     <div class="mt-2">

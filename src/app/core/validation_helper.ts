@@ -31,6 +31,9 @@ export class ValidationHelper {
                 case "limit":
                     messages.push(`The ${name} must be less than ${errors['limit'].limit}`);
                     break;
+                case "hilow":
+                    messages.push(`The ${name} must be between ${errors['hilow'].low} and ${errors['hilow'].high}`);
+                    break;
             }
         }
 

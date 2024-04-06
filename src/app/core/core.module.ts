@@ -7,6 +7,7 @@ import { FormComponent } from "./form.component";
 import { SharedState } from "./sharedState.service";
 import { ValidationHelper } from "./validation_helper";
 import { ValidationErrorsDirective } from "./validationsErros.directive";
+import { HiLowValidatorDirective } from "../validation/hilow";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ValidationErrorsDirective } from "./validationsErros.directive";
         TableComponent, 
         FormComponent,
         ValidationHelper,
-        ValidationErrorsDirective
+        ValidationErrorsDirective,
+        HiLowValidatorDirective
     ],
     exports: [
         ModelModule, 

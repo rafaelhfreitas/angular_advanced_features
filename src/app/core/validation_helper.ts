@@ -34,6 +34,9 @@ export class ValidationHelper {
                 case "hilow":
                     messages.push(`The ${name} must be between ${errors['hilow'].low} and ${errors['hilow'].high}`);
                     break;
+                case "unique":
+                    messages.push(`The ${name} must be unique`);
+                    break;
             }
         }
 

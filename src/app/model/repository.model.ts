@@ -73,7 +73,6 @@ export class Model {
 
         this.replaySubject.subscribe( products => {
             let nextId  = 0 ;
-            console.log('products: ', products);
             let index = products.findIndex(p => this.locator(p ,id));
             if (index > -1) {
                 nextId = products[products.length > index + 1 ? index + 1 : 0 ].id ?? 0; 

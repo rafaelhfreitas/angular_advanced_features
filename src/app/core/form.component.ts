@@ -9,7 +9,7 @@ import { FilteredFormArray } from "./filteredFormArray";
 import { LimitValidator } from "../validation/limit";
 import { UniqueValidator } from "../validation/unique";
 import { ProhibitedValidator } from "../validation/prohibited";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 
 
@@ -65,7 +65,8 @@ export class FormComponent {
 
     constructor(
         private model: Model,
-        activeRoute: ActivatedRoute
+        activeRoute: ActivatedRoute,
+        private router: Router
     ){ 
         console.log('Active route: ',activeRoute);
         this.editing =  activeRoute.snapshot.params["mode"] == "edit";
@@ -73,6 +74,12 @@ export class FormComponent {
         if (id != null) {
             model.getProductObservable(id).subscribe(p => {                
                 Object.assign(this.product, p || new Product());
+                this.product.name  = activeRoute.snapshot.params["name"] ?? this.product.name;
+                this.product.category = activeRoute.snapshot.params["category"] ?? this.product.category;
+                let price = activeRoute.snapshot.params["price"];
+                if(price != null) {
+                    this.product.price == Number.parseFloat(price);
+                }
                 this.productForm.patchValue(this.product);
             })
         }
@@ -119,10 +126,11 @@ export class FormComponent {
         if (this.productForm.valid) {
             Object.assign(this.product, this.productForm.value);
             this.model.saveProduct(this.product);
-            this.product = new Product();
-            this.keywordGroup.clear();
-            this.keywordGroup.push(this.createKeywordFormControl());
-            this.productForm.reset();
+            // this.product = new Product();
+            // this.keywordGroup.clear();
+            // this.keywordGroup.push(this.createKeywordFormControl());
+            // this.productForm.reset();
+            this.router.navigateByUrl("/");
         }
     }
 

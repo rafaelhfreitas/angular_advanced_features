@@ -64,72 +64,39 @@ export class FormComponent {
 
 
     constructor(
-        private model: Model,
+        public model: Model,
         activeRoute: ActivatedRoute,
-        private router: Router
+        public router: Router
     ){ 
-        console.log('Active route: ',activeRoute);
-        this.editing =  activeRoute.snapshot.params["mode"] == "edit";
-        let id = activeRoute.snapshot.params["id"];
-        if (id != null) {
-            model.getProductObservable(id).subscribe(p => {                
-                Object.assign(this.product, p || new Product());
-                this.product.name  = activeRoute.snapshot.params["name"] ?? this.product.name;
-                this.product.category = activeRoute.snapshot.params["category"] ?? this.product.category;
-                let price = activeRoute.snapshot.params["price"];
-                if(price != null) {
-                    this.product.price == Number.parseFloat(price);
-                }
-                this.productForm.patchValue(this.product);
-            })
-        }
+
+        activeRoute.params.subscribe(params => {
+            this.editing = params["mode"] == "edit";
+            let id = params["id"];
+            if (id != null) {
+                model.getProductObservable(id).subscribe(p => {                
+                    Object.assign(this.product, p || new Product());
+                    this.productForm.patchValue(this.product);
+                })
+            }
+        })
+
+        // console.log('Active route: ',activeRoute);
+        // this.editing =  activeRoute.snapshot.params["mode"] == "edit";
+        // let id = activeRoute.snapshot.params["id"];
+        // if (id != null) {
+        //     model.getProductObservable(id).subscribe(p => {                
+        //         Object.assign(this.product, p || new Product());
+        //         this.productForm.patchValue(this.product);
+        //     })
+        // }
     }
 
-    // constructor(private model: Model,
-    //     private state: SharedState,
-    //     private messageService: MessageService) {
-    //     this.state.changes.subscribe((upd) => this.handleStateChange(upd))
-    //     this.messageService.reportMessage(new Message("Creating New Product"));
-    // }
 
-
-    // handleStateChange(newState: StateUpdate) {
-
-    //     this.editing = newState.mode == MODES.EDIT;
-    //     this.keywordGroup.clear();
-
-    //     if (this.editing && newState.id) {
-
-    //         Object.assign(this.product, this.model.getProduct(newState.id)
-    //             ?? new Product());
-
-    //         this.messageService.reportMessage(
-    //             new Message(`Editing ${this.product.name}`));
-
-    //         this.product.details?.keywords?.forEach(val => {
-    //             this.keywordGroup.push(this.createKeywordFormControl());
-    //         });
-
-    //     } else {
-    //         this.product = new Product();
-    //         this.messageService.reportMessage(new Message("Creating New Product"));
-    //     }
-
-    //     if (this.keywordGroup.length == 0) {
-    //         this.keywordGroup.push(this.createKeywordFormControl());
-    //     }
-
-    //     this.productForm.reset(this.product);
-    // }
 
     submitForm() {
         if (this.productForm.valid) {
             Object.assign(this.product, this.productForm.value);
             this.model.saveProduct(this.product);
-            // this.product = new Product();
-            // this.keywordGroup.clear();
-            // this.keywordGroup.push(this.createKeywordFormControl());
-            // this.productForm.reset();
             this.router.navigateByUrl("/");
         }
     }

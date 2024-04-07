@@ -10,6 +10,10 @@ import { ValidationErrorsDirective } from "./validationsErros.directive";
 import { HiLowValidatorDirective } from "../validation/hilow";
 import { RouterModule } from "@angular/router";
 
+import { ProductCountComponent } from "./productCount.component";
+import { CategoryCountComponent } from "./categoryCount.component";
+import { NotFoundComponent } from "./notFound.component";
+
 
 @NgModule({
     imports: [
@@ -24,7 +28,10 @@ import { RouterModule } from "@angular/router";
         FormComponent,
         ValidationHelper,
         ValidationErrorsDirective,
-        HiLowValidatorDirective
+        HiLowValidatorDirective,
+        ProductCountComponent,
+        CategoryCountComponent,
+        NotFoundComponent
     ],
     exports: [
         ModelModule, 

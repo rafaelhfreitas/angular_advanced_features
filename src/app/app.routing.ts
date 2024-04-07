@@ -9,7 +9,9 @@ const routes: Routes = [
     // { path: "form/create", component: FormComponent },
     { path: "form/:mode/:id", component: FormComponent },
     { path: "form/:mode", component: FormComponent },
-    { path: "", component: TableComponent },
+    { path: "does", redirectTo: "/form/create" , pathMatch: "prefix"},
+    { path: "table", component: TableComponent },
+    { path: "", redirectTo: "/table", pathMatch: "full" },
     { path: "**", component: NotFoundComponent }
 ]
 

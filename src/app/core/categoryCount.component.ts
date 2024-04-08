@@ -11,12 +11,16 @@ import { Model } from "../model/repository.model";
                 </div>`
 })
 export class CategoryCountComponent {
+    
     private differ?: KeyValueDiffer<any, any>;
     count: number = 0;
+
+
     constructor(private model: Model,
         private keyValueDiffers: KeyValueDiffers,
         private changeDetector: ChangeDetectorRef) { }
-    ngOnInit() {
+
+        ngOnInit() {
         this.differ = this.keyValueDiffers
             .find(this.model.getProducts())
             .create();

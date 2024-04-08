@@ -15,7 +15,8 @@ export class RestDataSource {
         // return this.http.get<Product[]>(this.url);
         // return this.sendRequest<Product[]>("GET", this.url)
         // return this.http.jsonp<Product[]>(this.url, "callback");
-        return this.sendRequest<Product[]>("GET", this.url).pipe(delay(5000));
+        // return this.sendRequest<Product[]>("GET", this.url);
+        return this.sendRequest<Product[]>("GET", this.url).pipe(delay(2000));
     }
 
     saveProduct(product: Product): Observable<Product> {

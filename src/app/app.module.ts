@@ -14,6 +14,7 @@ import { FormComponent } from './core/form.component';
 
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
+import { TermsGuard } from './terms.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,7 @@ import { routing } from './app.routing';
     MessageModule,
     routing
   ],
-  providers: [],
+  providers: [TermsGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

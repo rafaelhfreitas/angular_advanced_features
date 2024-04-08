@@ -15,6 +15,7 @@ import { FormComponent } from './core/form.component';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { TermsGuard } from './terms.guard';
+import { LoadGuard } from './load.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,7 @@ import { TermsGuard } from './terms.guard';
     MessageModule,
     routing
   ],
-  providers: [TermsGuard],
+  providers: [TermsGuard, LoadGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

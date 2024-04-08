@@ -13,7 +13,7 @@ import { RouterModule } from "@angular/router";
 import { ProductCountComponent } from "./productCount.component";
 import { CategoryCountComponent } from "./categoryCount.component";
 import { NotFoundComponent } from "./notFound.component";
-
+import { UnsavedGuard } from "./unsavedChanges.guard";
 
 @NgModule({
     imports: [
@@ -38,6 +38,6 @@ import { NotFoundComponent } from "./notFound.component";
         TableComponent, 
         FormComponent
     ],
-    // providers: [SharedState]
+    providers: [UnsavedGuard]
 })
 export class CoreModule { }

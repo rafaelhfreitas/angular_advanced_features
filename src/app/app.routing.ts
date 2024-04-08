@@ -6,14 +6,13 @@ import { ProductCountComponent } from "./core/productCount.component";
 import { CategoryCountComponent } from "./core/categoryCount.component";
 import { ModelResolver } from "./model/model.resolver";
 import { TermsGuard } from "./terms.guard";
-
+import { UnsavedGuard } from "./core/unsavedChanges.guard";
 
 
 const childRoutes: Routes = [
-    { path: "products", component: ProductCountComponent },
-    { path: "categories", component: CategoryCountComponent },
     { 
-        path: "", 
+        path: "",
+        canActivateChild: [TermsGuard], 
         children: [
             { path: "products", component: ProductCountComponent },
             { path: "categories", component:CategoryCountComponent },
@@ -25,7 +24,12 @@ const childRoutes: Routes = [
 
 
 const routes: Routes = [
-    { path: "form/:mode/:id", component: FormComponent, resolve: {model: ModelResolver} },
+    { 
+        path: "form/:mode/:id", 
+        component: FormComponent, 
+        resolve: {model: ModelResolver} ,
+        canDeactivate: [UnsavedGuard]
+    },
     { 
         path: "form/:mode", 
         component: FormComponent, 

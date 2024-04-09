@@ -17,6 +17,8 @@ import { UnsavedGuard } from "./unsavedChanges.guard";
 
 import { MaterialFeatures } from "../material.module";
 
+import { CustomButton } from "./customButton.component";
+
 @NgModule({
     imports: [
         BrowserModule, 
@@ -34,7 +36,8 @@ import { MaterialFeatures } from "../material.module";
         HiLowValidatorDirective,
         ProductCountComponent,
         CategoryCountComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        CustomButton
     ],
     exports: [
         ModelModule, 

@@ -33,8 +33,12 @@ export const HighlightTrigger = trigger("rowHighlight", [
     //     border: "solid black 2px"
     // })),
 
+    // state("void", style({
+    //     opacity: 0
+    // })),
+
     state("void", style({
-        opacity: 0
+        transform: "translateX(-50%)"
     })),
 
     // transition("selected => notselected", animate("200ms")),

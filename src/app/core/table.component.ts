@@ -4,6 +4,7 @@ import { Model } from "../model/repository.model";
 // import { MODES, SharedState } from "./sharedState.service";
 import { ActivatedRoute } from "@angular/router";
 import { HighlightTrigger } from "./table.animations";
+import { setPropertiesFromClasses, stateClassMap } from "./animationUtils";
 
 
 @Component({
@@ -50,10 +51,20 @@ export class TableComponent {
     }
 
     highlightCategory: string = "";
-    
-    getRowState(category: string | undefined): string {
-        return this.highlightCategory == "" ? "" :
-            this.highlightCategory == category ? "selected" : "notselected";
+
+    // getRowState(category: string | undefined): string {
+    //     return this.highlightCategory == "" ? "" :
+    //         this.highlightCategory == category ? "selected" : "notselected";
+    // }
+
+
+    getRowState(category: string | undefined, elem: HTMLTableRowElement): string {
+        let state = this.highlightCategory == "" ? "" :
+            this.highlightCategory == category ? "selected" : "notselected"
+        if (state != "") {
+            setPropertiesFromClasses(state, elem);
+        }
+        return state;
     }
 
 }

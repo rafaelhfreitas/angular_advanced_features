@@ -1,4 +1,4 @@
-import { trigger, style, state, transition, animate } from "@angular/animations";
+import { trigger, style, state, transition, animate, group } from "@angular/animations";
 
 
 export const HighlightTrigger = trigger("rowHighlight", [
@@ -36,18 +36,37 @@ export const HighlightTrigger = trigger("rowHighlight", [
     //         }))
     // ),
 
+    // transition("* => selected",
+    //     [animate("400ms 200ms ease-in",
+    //         style({
+    //             backgroundColor: "lightblue",
+    //             fontSize: "25px"
+    //         })),
+    //     animate("250ms", style({
+    //         backgroundColor: "lightcoral",
+    //         fontSize: "30px"
+    //     })),
+    //     animate("200ms")]
+    // ),
+
     transition("* => selected",
         [animate("400ms 200ms ease-in",
             style({
                 backgroundColor: "lightblue",
                 fontSize: "25px"
             })),
-        animate("250ms", style({
-            backgroundColor: "lightcoral",
-            fontSize: "30px"
-        })),
-        animate("200ms")]
+            group([
+                animate("250ms", style({
+                    backgroundColor: "lightcoral",
+                })),
+                animate("450ms", style({
+                    fontSize: "30px"
+                })),
+            ]),
+            animate("200ms")]
     ),
+
+
 
     transition("void => *", animate("1000ms"))
 ]);

@@ -15,13 +15,18 @@ import { CategoryCountComponent } from "./categoryCount.component";
 import { NotFoundComponent } from "./notFound.component";
 import { UnsavedGuard } from "./unsavedChanges.guard";
 
+import { MaterialFeatures } from "../material.module";
+
+import { CustomButton } from "./customButton.component";
+
 @NgModule({
     imports: [
         BrowserModule, 
         FormsModule, 
         ModelModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        MaterialFeatures
     ],
     declarations: [
         TableComponent, 
@@ -31,7 +36,8 @@ import { UnsavedGuard } from "./unsavedChanges.guard";
         HiLowValidatorDirective,
         ProductCountComponent,
         CategoryCountComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        CustomButton
     ],
     exports: [
         ModelModule, 

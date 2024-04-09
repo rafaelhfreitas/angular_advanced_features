@@ -14,16 +14,15 @@ export class Model {
 
     constructor(
         private dataSource: RestDataSource) {
-        
-            this.products = new Array<Product>();
-            this.replaySubject = new ReplaySubject<Product[]>(1);
-        
-            // this.dataSource.getData().forEach(p => this.products.push(p));
-            this.dataSource.getData().subscribe(data => {
-                this.products = data;
-                this.replaySubject.next(data);
-                this.replaySubject.complete();
-            });
+
+        this.products = new Array<Product>();
+        this.replaySubject = new ReplaySubject<Product[]>(1);
+
+        this.dataSource.getData().subscribe(data => {
+            this.products = data;
+            this.replaySubject.next(data);
+            // this.replaySubject.complete();
+        });
     }
 
     getProducts(): Product[] {
@@ -45,6 +44,7 @@ export class Model {
                 this.products.splice(index, 1, p);
             });
         }
+        this.replaySubject.next(this.products);
     }
 
     deleteProduct(id: number) {
@@ -52,14 +52,15 @@ export class Model {
             let index = this.products.findIndex(p => this.locator(p, id));
             if (index > -1) {
                 this.products.splice(index, 1);
+                this.replaySubject.next(this.products);
             }
         });
     }
 
 
-    getProductObservable(id: number) : Observable<Product | undefined> {
+    getProductObservable(id: number): Observable<Product | undefined> {
         let subject = new ReplaySubject<Product | undefined>(1);
-        
+
         this.replaySubject.subscribe(products => {
             subject.next(products.find(p => this.locator(p, id)));
             subject.complete();
@@ -68,14 +69,18 @@ export class Model {
         return subject;
     }
 
-    getNextProductId(id? : number): Observable<number> {
+    getProductsObservable(): Observable<Product[]> {
+        return this.replaySubject;
+    }
+
+    getNextProductId(id?: number): Observable<number> {
         let subject = new ReplaySubject<number>(1);
 
-        this.replaySubject.subscribe( products => {
-            let nextId  = 0 ;
-            let index = products.findIndex(p => this.locator(p ,id));
+        this.replaySubject.subscribe(products => {
+            let nextId = 0;
+            let index = products.findIndex(p => this.locator(p, id));
             if (index > -1) {
-                nextId = products[products.length > index + 1 ? index + 1 : 0 ].id ?? 0; 
+                nextId = products[products.length > index + 1 ? index + 1 : 0].id ?? 0;
             } else {
                 nextId = id || 0;
             }
@@ -88,15 +93,15 @@ export class Model {
     }
 
 
-    getPreviousProductId(id? : number) : Observable<number> {
+    getPreviousProductId(id?: number): Observable<number> {
         let subject = new ReplaySubject<number>(1);
 
-        this.replaySubject.subscribe( products => {
-            let nextId = 0 ;
-            let index = products.findIndex( p => this.locator(p, id));
+        this.replaySubject.subscribe(products => {
+            let nextId = 0;
+            let index = products.findIndex(p => this.locator(p, id));
 
             if (index > -1) {
-                nextId = products[index > 0 ? index -1 : products.length -1].id ?? 0;
+                nextId = products[index > 0 ? index - 1 : products.length - 1].id ?? 0;
             } else {
                 nextId = id || 0;
             }
@@ -105,7 +110,7 @@ export class Model {
         })
 
         return subject;
-    
+
     }
 
 

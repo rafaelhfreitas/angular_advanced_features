@@ -23,6 +23,11 @@ button.custom-button {
                 weight: material.font-weight($typography, button);
             }
         }
+
+        &-#{$name} ::ng-deep .mat-ripple-element {
+            background-color: material.get-color-from-palette($palette,
+                    default-contrast, 0.1);
+        }
     }
 }
 
@@ -34,3 +39,5 @@ button[class*="custom-button-"]:disabled {
     background-color: material.get-color-from-palette($bg, disabled-button);
     color: material.get-color-from-palette($fg, disabled-button);
 }
+
+
